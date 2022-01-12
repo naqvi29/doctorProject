@@ -1,0 +1,61 @@
+{% extends "layoutadmin.html" %} {% block title %}Address Add{% endblock %} {% block head %} {{ super() }} {% endblock %} {% block content %}
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">Address Add</h1>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card shadow mb-4">
+
+                {% if message|length > 1 %}
+                <div class="col-md-12">
+                    <div class="alert alert-success">{{ message }}</div>
+                </div>
+                {% endif %} {% if error|length > 1 %}
+                <div class="col-md-12">
+                    <div class="alert alert-danger">{{ error }}</div>
+                </div>
+                {% endif %}
+                <form class="needs-validation mt-5" action="/address-add" method="POST">
+                    <div class="container">
+                        <div class="form-row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name">Add Address</label>
+                                <input type="text" class="form-control" id="name" name="address" placeholder="Add Address" required>
+
+                            </div>
+
+
+
+
+                        </div>
+
+                        <button class="btn btn-primary mb-4" type="submit">Add Address</button>
+                    </div>
+                </form>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+
+{% endblock %} {% block script %} {#
+<script>
+    #} {#
+        $(document).ready(function() {#} {#
+            $('.mdb-select').materialSelect();#
+        } {#});#
+    } {#
+</script>#} {% endblock %}

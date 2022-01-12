@@ -1,0 +1,18 @@
+patient_id,Age,Agree to and are able to follow the study procedure,Clinical Site,Date of Informed Consent,Gender,Male & female patients who are 18-65 years of age.,Malignant (or history of malignant) hypertension,Patient Number,Patients who require amlodipine + valsartan combination for hypertension management ,"Patients with essential hypertension (BP: ? 140/90 mmHg) or patients whose BP is not adequately controlled with amlodipine (or another CCB) alone or with valsartan (or another ARB) alone, or with any other antihypertensive monothera"
+2,26,Yes,emergency,2021-12-12,Male,Yes,Yes,12,Yes,Yes
+6,32,Yes,AKU,2021-04-05,Male,Yes, No,06,Yes,Yes
+16,12,Yes,Patient 1 Doctor Sheraz,2021-05-26,Male,Yes,Yes,21,Yes, No
+18,20, No,yewooo,2021-05-02,Male,Yes,Yes,1000,Yes,Yes
+22,12, No,Patient 3 doctor sheraz,2021-09-29,Male, No, No,009, No, No
+25,1222, No,emergency,2021-10-02,Male, No, No,1, No,Yes
+26,7, No,Patient 3 doctor sheraz,2021-10-23,,Yes,Yes,444,Yes, No
+28,21,Yes,233,2021-10-13,Male,Yes, No,123,Yes,Yes
+30,123, No,12,2021-10-07,Male, No,Yes,12,Yes, No
+33,45,Yes,1,2021-11-16,Male,Yes, No,001,Yes,Yes
+35,69,Yes,1,2021-11-16,Male,Yes, No,002,Yes,Yes
+36,25,,1,2021-11-17,Male,Yes,Yes,123,Yes, No
+38,123, No,dsf,2021-11-23,Male, No,Yes,132,Yes,Yes
+39,3, No,sdf,2021-12-01,Male, No, No,333,Yes,Yes
+51,7,Yes,jn,2021-11-21,Male, No,Yes,098, No,Yes
+69,, No,,,,Yes,Yes,,Yes, No
+74,,Yes,,,,Yes,Yes,,Yes, No

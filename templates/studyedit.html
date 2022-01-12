@@ -1,0 +1,325 @@
+{% extends "layoutadmin.html" %}
+{% block title %}Doctor Project{% endblock %}
+{% block head %} {{ super() }}
+{% endblock %}
+{% block content %}
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <h1 class="h3 mb-4 text-gray-800">Study Project</h1>
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card shadow mb-4">
+
+                    <div class="row ">
+                        <a style="padding-left: 2vw;" href="/Study/list"><i class="fas fa-arrow-left"></i> Back</a>
+                    </div>
+                    <form class="needs-validation mt-5" action="/caseedit" method="POST">
+                        <div class="container">
+                            {% if message|length > 1 %}
+                                <div class="col-md-12">
+                                    <div class="alert alert-success">{{ message }}</div>
+                                </div>
+                            {% endif %}
+                            <div class="form-row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="title">Title</label>
+                                    <input type="text" class="form-control" id="idfields" name="idfields"
+                                           value="{{ idfields }}" readonly required style="display: none;">
+                                    <input type="text" class="form-control" id="caseids" name="caseids"
+                                           value="{{ case[0] }}" readonly required style="display: none;">
+                                    <input type="text" class="form-control" id="title" name="title"
+                                           placeholder="Title" value="{{ case[1] }}" required>
+
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="status">Status</label>
+
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text"
+                                                   for="inputGroupSelect01">Options</label>
+                                        </div>
+                                        <select class="custom-select" id="status" name="status">
+                                            <option {% if case[3] == 1 %} selected {% endif %} value="1">Active
+                                            </option>
+                                            <option {% if case[3] == 0 %} selected {% endif %} value="0">InActive
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <h5>Form Fields
+                            </h5>
+                            {% set a = namespace(value=1) %}
+                            <div id="maindiv">
+                                {% for eachfield in data %}
+                                    <div id="row_{{ loop.index }}">
+                                        {% if loop.index > 1 %}
+                                            <hr>
+                                        {% endif %}
+                                        {% set a.value = a.value + 1 %}
+
+
+                                        <div class="form-row">
+                                            <input type="text" class="form-control" id="fieldids" name="fieldids"
+                                                   value="{{ eachfield[0] }}" readonly required style="display: none;">
+                                            <div class="col-md-3 mb-3">
+                                                <input type="text" class="form-control" id="label" name="label"
+                                                       placeholder="Name" value="{{ eachfield[1] }}" required>
+                                            </div>
+
+                                            <div class="col-md-3 mb-3">
+                                                <input type="text" class="form-control" id="fieldplaceholder"
+                                                       name="fieldplaceholder"
+                                                       placeholder="Placeholder" value="{{ eachfield[3] }}">
+                                            </div>
+
+                                            <div class="col-md-3 mb-3">
+                                                <input type="text" class="form-control" id="fieldvalue"
+                                                       name="fieldvalue"
+                                                       placeholder="Value" value="{{ eachfield[4] }}">
+                                            </div>
+
+                                            <div class="col-md-3 mb-3">
+                                                <input type="text" class="form-control" id="fieldsorting"
+                                                       name="fieldsorting"
+                                                       placeholder="Sort Order" value="{{ eachfield[6] }}" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+
+                                            <div class="col-md-4 mb-3">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <label class="input-group-text"
+                                                               for="fieldtype">Type</label>
+                                                    </div>
+                                                    <select class="custom-select" id="fieldtype" name="fieldtype"
+                                                            required>
+                                                        <option {% if eachfield[2] == "radio" %} selected {% endif %}
+                                                                                                 value="radio">Radio
+                                                        </option>
+                                                        <option {% if eachfield[2] == "text" %} selected {% endif %}
+                                                                                                value="text">Text
+                                                        </option>
+                                                        <option {% if eachfield[2] == "date" %} selected {% endif %}
+                                                                                                value="date">Date
+                                                        </option>
+                                                        <option {% if eachfield[2] == "number" %} selected {% endif %}
+                                                                                                  value="number">Number
+                                                        </option>
+                                                        <option {% if eachfield[2] == "textarea" %} selected {% endif %}
+                                                                                                    value="textarea">
+                                                            Text Area
+                                                        </option>
+                                                        <option {% if eachfield[2] == "checkbox" %} selected {% endif %}
+                                                                                                    value="checkbox">
+                                                            Check Box
+                                                        </option>
+                                                        <option {% if eachfield[2] == "heading" %} selected {% endif %}
+                                                                                                   value="heading">
+                                                            Heading
+                                                        </option>
+                                                        <option {% if eachfield[2] == "paragraph" %}selected {% endif %}
+                                                                value="paragraph">
+                                                            Paragraph
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 mb-3">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <label class="input-group-text"
+                                                               for="fieldsize">Size</label>
+                                                    </div>
+                                                    <select class="custom-select" id="fieldsize" name="fieldsize"
+                                                            required>
+                                                        <option {% if eachfield[5] == "col-md-6" %} selected {% endif %}
+                                                                                                    value="col-md-6">
+                                                            Half
+                                                        </option>
+                                                        <option {% if eachfield[5] == "col-md-12" %}selected {% endif %}
+                                                                value="col-md-12">
+                                                            Full
+                                                        </option>
+                                                        <option {% if eachfield[5] == "col-md-3" %} selected {% endif %}
+                                                                                                    value="col-md-3">1/4
+                                                        </option>
+                                                        <option {% if eachfield[5] == "col-md-9" %} selected {% endif %}
+                                                                                                    value="col-md-9">3/4
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4 mb-3">
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <label class="input-group-text"
+                                                               for="isrequired">Is Required</label>
+                                                    </div>
+                                                    <select class="custom-select" id="isrequired" name="isrequired"
+                                                            required>
+                                                        <option {% if eachfield[9] == 1 %} selected {% endif %}
+                                                                                                    value="1">Yes
+                                                        </option>
+                                                        <option {% if eachfield[9] == 0 %} selected {% endif %}
+                                                                                                    value="0">No
+                                                        </option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% if loop.index > 1 %}
+                                            <div class="row">
+                                                <div class="col-sm-10">
+                                                </div>
+                                                <div class="col-sm-1">
+                                                    <a class="fa fa-trash" type="button" id="delete_{{ a.value - 1 }}"
+                                                       onclick="deleterow(this.id)">Delete</a>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            <button class="btn btn-primary mb-4" type="button" id="btn_{{ a.value }}"
+                                    onclick="addnew(this.id)">Add
+                                More
+                            </button>
+                            <button class="btn btn-primary mb-4" type="submit">Update</button>
+                        </div>
+                    </form>
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+        <!-- /.container-fluid -->
+
+    </div>
+    <!-- End of Main Content -->
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        function addnew(id) {
+            var previousid = id.split("_")[1];
+            console.log(previousid);
+            var newid = parseInt(previousid) + 1;
+            document.getElementById("btn_" + previousid.toString()).id = "btn_" + newid.toString();
+            var olddata = document.getElementById("row_1").innerHTML;
+
+            jQuery('#maindiv').append(`
+                <div id="row_` + newid + `">
+                    <hr>
+                    <div class="form-row">
+                        <div class="col-md-3 mb-3">
+                        <input type="text" class="form-control" id="fieldids" name="fieldids"
+                                                   value="" readonly required style="display: none;">
+                            <input type="text" class="form-control" id="label" name="label"
+                                   placeholder="Name" required>
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <input type="text" class="form-control" id="fieldplaceholder"
+                                   name="fieldplaceholder"
+                                   placeholder="Placeholder">
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <input type="text" class="form-control" id="fieldvalue" name="fieldvalue"
+                                   placeholder="Value">
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <input type="text" class="form-control" id="fieldsorting"
+                                   name="fieldsorting"
+                                   placeholder="Sort Order" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+
+                        <div class="col-md-4 mb-3">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text"
+                                           for="inputGroupSelect01">Type</label>
+                                </div>
+                                <select class="custom-select" id="fieldtype" name="fieldtype" required>
+                                    <option value="radio">Radio</option>
+                                    <option value="text">Text</option>
+                                    <option value="date">Date</option>
+                                    <option value="number">Number</option>
+                                    <option value="textarea">Text Area</option>
+                                    <option value="checkbox">Check Box</option>
+                                    <option value="heading">Heading</option>
+                                    <option value="paragraph">Paragraph</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text"
+                                           for="inputGroupSelect01">Size</label>
+                                </div>
+                                <select class="custom-select" id="fieldsize" name="fieldsize" required>
+                                    <option value="col-md-6">Half</option>
+                                    <option value="col-md-12">Full</option>
+                                    <option value="col-md-3">1/4</option>
+                                    <option value="col-md-9">3/4</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <label class="input-group-text"
+                                           for="inputGroupSelect01">Required</label>
+                                </div>
+                                <select class="custom-select" id="isrequired" name="isrequired" required>
+                                    <option value="1">Yes</option>
+                                    <option value="0">No</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-10">
+                        </div>
+                        <div class="col-sm-1">
+                            <a class="fa fa-trash" type="button" id="delete_` + newid.toString() + `"
+                               onclick="deleterow(this.id)">Delete</a>
+                        </div>
+                    </div>
+                </div>
+                `);
+        }
+
+
+        function deleterow(deleterowid) {
+            var id = deleterowid.split("_")[1];
+            console.log(id);
+            jQuery("#row_" + id.toString() + "").remove();
+        }
+    </script>
+
+{% endblock %}

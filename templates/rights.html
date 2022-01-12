@@ -1,0 +1,107 @@
+{% extends "layoutadmin.html" %} {% block title %}Doctor Project{% endblock %} {% block head %} {{ super() }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css"> {% endblock %} {% block content %}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+
+    <h1 class="h3 mb-4 text-gray-800">USER RIGHT
+    </h1>
+
+
+
+    <div class="row">
+        {% if message|length > 1 %}
+        <div class="col-md-12">
+            <div class="alert alert-success">{{ message }}</div>
+        </div>
+        {% endif %} {% if error|length > 1 %}
+        <div class="col-md-12">
+            <div class="alert alert-danger">{{ error }}</div>
+        </div>
+        {% endif %}
+
+        <form action="/user-right" method="POST" class="w-100">
+            <div class="container w-75 mx-auto d-block mt-5">
+                <div class="row">
+                    <div class="col-sm-4">
+                        <input value="yes" type="checkbox" name="delete" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Delete</label>
+                    </div>
+
+
+                    <div class="col-sm-4">
+                        <input name="edit" value="yes" type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Edit</label>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <input name="add" value="yes" type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Add</label>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <input value="yes" type="checkbox" name="view" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">View</label>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <input value="yes" type="checkbox" name="lock" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Lock</label>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <input value="yes" type="checkbox" name="data_download" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Data Download</label>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <input value="yes" type="checkbox" name="query" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Query</label>
+                    </div>
+
+
+                    <div class="col-sm-2"></div>
+                    <div class="col-sm-8">
+                        <button type="submit" class="btn btn-primary mx-auto mt-3 d-block w-25">Submit</button>
+
+                    </div>
+                    <div class="col-sm-4"></div>
+
+                </div>
+
+            </div>
+
+        </form>
+
+
+    </div>
+    <!-- /.container-fluid -->
+</div>
+</div>
+
+<!-- End of Main Content -->
+
+{% endblock %} {% block script %} {#
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>#}
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#Table').DataTable();
+    });
+</script>
+
+<script>
+    function editdoc(id) {
+        var formid = id;
+        var date = new Date();
+        date.setTime(date.getTime() + (1 * 1 * 60 * 60 * 1000));
+        document.cookie = "formid=" + formid.toString() + "; expires=" + date.toGMTString() + ";path=/";
+        window.location.href = "/casedetail";
+    }
+</script>
+{% endblock %}

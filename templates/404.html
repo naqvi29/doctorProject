@@ -1,0 +1,28 @@
+{% extends "layoutadmin.html" %}
+{% block title %}Doctor Project{% endblock %}
+{% block head %} {{ super() }}
+{% endblock %}
+{% block content %}
+
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Some Thing went Wrong</h1>
+
+        </div>
+
+        <!-- Content Row -->
+        <div class="row">
+            {% if error %}
+                <div class="col-md-12">
+                    <div class="alert alert-danger">{{ error }}</div>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+    <!-- /.container-fluid -->
+
+{% endblock %}

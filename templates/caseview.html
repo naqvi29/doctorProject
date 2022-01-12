@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Study Project</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css"/>
+
+    <style type="text/css">
+        .tab-content {
+
+            float: right;
+            padding: 20px;
+            margin-bottom: 150px;
+        }
+
+        .nav-pills {
+            float: left;
+
+        }
+
+
+    </style>
+</head>
+<body onload="myFunction()">
+<div class="container mt-5 mb-5">
+    <h1 class="text-center mb-2">Study Project</h1>
+    <h2 class="text-center mb-5">ABC Project</h2>
+
+    <p>Choose Existing Patient by Contact # </p>
+    <select class="selectpicker w-50 py-1" required>
+        <option>Select Patient</option>
+        {% for eachpatient in patients %}
+            <option
+                    value="{{ eachpatient[0] }}">{{ eachpatient[1] }} | {{ eachpatient[2] }}</option>
+        {% endfor %}
+    </select>
+
+    <button class="btn btn-primary ml-2" data-toggle="modal" data-target="#exampleModal">Or Create New Patient</button>
+
+</div>
+<div class="container" id="mymaindiv">
+
+
+</div>
+
+{#
+<div class="container">
+    {% set a = namespace(value=1) %}
+    {% for eachtab in data %}
+        {% if eachtab[2] == 'heading' and a.value >= 1 %}
+
+            {% if a.value == 1 %}
+
+                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill"
+                   href="#{{ eachtab[0] }}" role="tab"
+                   aria-controls="v-pills-home" aria-selected="true"><span
+                        class="number">{{ a.value }}. </span>{{ eachtab[1] }}</a>
+                {% set a.value = a.value + 1 %}
+            {% elif a.value > 1 %}
+                <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"
+                   href="#{{ eachtab[0] }}" role="tab"
+                   aria-controls="v-pills-home" aria-selected="true"><span
+                        class="number">{{ a.value }}. </span>{{ eachtab[1] }}</a>
+            {% endif %}
+        {% endif %}
+
+
+    {% endfor %}
+</div>
+#}
+
+
+<div class="container"></div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create Patient</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post" action="/addpatient">
+                <div class="modal-body">
+                    <div class="form-row">
+
+                        <div class="form-group col-md-6">
+                            <label for="input1">Patient Name *</label>
+                            <input type="text" class="form-control" id="name" name="name" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="input2">Contact</label>
+                            <input type="text" class="form-control" id="contact" name="contact" required>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label for="input3">Address</label>
+                            <input type="text" class="form-control" id="address" name="address" required>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+<script>
+    $('select').selectpicker({
+
+        liveSearch: true
+    });
+
+    function myFunction() {
+        {#alert("Page is loaded");#}
+        {% set a = namespace(value=1) %}
+        {% for eachtab in data %}
+            {% if eachtab[2] == 'heading' %}
+                {% if a.value == 1 and loop.index == 1 %}
+                    $('#mymaindiv').append(`
+                    <div class="nav flex-column nav-pills w-25" id="v-pills-tab" name="v-pills-tab" role="tablist"
+                            aria-orientation="vertical">
+                    <a class="nav-link active" id="{{ loop.index }}-tab" data-toggle="pill"
+                       href="#{{ loop.index }}" role="tab"
+                       aria-controls="{{ loop.index }}" aria-selected="true"><span
+                            class="number">{{ a.value }}. </span>{{ eachtab[1] }}</a>
+                    </div>
+                    <div class="tab-pane fade show active" id="{{ loop.index }}" role="tabpanel" aria-labelledby="{{ loop.index }}-tab">
+                    `)
+                    {% set a.value = a.value + 1 %}
+                {% elif a.value > 1 %}
+                    $('#v-pills-tab').append(`
+                    <a class="nav-link" id="v-pills-home-tab" data-toggle="pill"
+                       href="#{{ eachtab[0] }}" role="tab"
+                       aria-controls="v-pills-home" aria-selected="false"><span
+                            class="number">{{ a.value }}. </span>{{ eachtab[1] }}</a>
+                    `)
+                    {% set a.value = a.value + 1 %}
+                {% endif %}
+            {% elif eachtab[2] != 'heading'%}
+                {% if a.value != 1 and loop.index == 2 %}
+                    $('#mymaindiv').append(`
+                    <div class='w-75' id="addnewdata">
+                     {% if eachtab[2] != 'paragraph' and eachtab[2] != 'radio' and eachtab[2] != 'heading'  %}
+                        <label>{{ eachtab[1] }}</label>
+                    {% endif %}
+                        <input {% if eachtab[2] != 'paragraph'  %} type='{{ eachtab[2] }}' {% else %}
+                         type='label' {% endif %} class='{{ eachtab[5] }}' {% if eachtab[9] == 1 %} required {% endif %}
+                     </div>
+                    `)
+                {% elif a.value != 1 and loop.index != 2 %}
+                    $('#addnewdata').append(`
+                     {% if eachtab[2] != 'paragraph' and eachtab[2] != 'radio' and eachtab[2] != 'heading'  %}
+                        <label>{{ eachtab[1] }}</label>
+                    {% endif %}
+                    {% if eachtab[2] != 'paragraph'  %}
+                        <input type='{{ eachtab[2] }}' class='{{ eachtab[5] }}' {% if eachtab[9] == 1 %} required
+                    {% endif %}
+                    {% else %}
+                    <label>{{ eachtab[1] }}</label>
+                    {% endif %}
+                    `)
+                {% elif a.value == 1 and loop.index == 1 %}
+                    $('#mymaindiv').append(`
+                    <div class='w-100'>
+                    {% if eachtab[2] != 'paragraph' and eachtab[2] != 'radio' and eachtab[2] != 'heading'  %}
+                    <label>{{ eachtab[1] }}</label
+
+                    {% elif eachtab[2] == 'paragraph'  %}
+                    <label class='{{ eachtab[5] }}'>{{ eachtab[1] }}</label>
+                    {% elif eachtab[2] != 'paragraph'  %}
+                    <input type='{{ eachtab[2] }}' class='{{ eachtab[5] }}' {% if eachtab[9] == 1 %} required
+                    {% endif %}
+                         </div>
+                         {% endif %}
+                    `)
+                {% endif %}
+
+
+            {% endif %}
+
+        {% endfor %}
+    }
+
+</script>
+
+</body>
+</html>

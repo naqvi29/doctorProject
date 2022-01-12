@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Study Project</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
+
+    <style type="text/css">
+        .tab-content {
+            float: right;
+            padding: 20px;
+            margin-bottom: 150px;
+        }
+        
+        .nav-pills {
+            float: left;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="row" style="padding-top: 10px;">
+        <div class="col col-sm-1"></div>
+        <div class="col col-sm-3">
+            <a href="/CaseView/list" class="button">Back</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-sm-12" style="text-align: center">
+            <h1>Study Project</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col col-sm-12" style="text-align: center">
+            <h3>{{ formname }} Report</h3>
+        </div>
+    </div>
+
+    <form>
+        <div class="container">
+
+            <div class="row">
+                <div class="col col-sm-12">
+                    <p>Choose Existing Patient by Contact #</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-sm-6">
+                    <select class="selectpicker form-control" name="patientName" id="patientName" required onchange="fillformdata(this.value)">
+                    <option></option>
+                    {% for eachpatient in patients %}
+                        <option
+                                value="{{ eachpatient[0] }}">{{ eachpatient[1] }} | {{ eachpatient[2] }}</option>
+                    {% endfor %}
+                </select>
+                </div>
+                <div class="col col-sm-3">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Add
+                    Patient
+                </button>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            {% if data[0][2] == "heading" %}
+            <div class="col col-sm-3">
+                <div class="container">
+                    {% set a = namespace(value=1) %} {% for headings in data %} {% if headings[2] == "heading" %}
+
+                    <div class="col col-sm-12" id="heading_{{ a.value }}" style="border: 1px solid black; border-radius: 10px;margin-top: 10px; cursor: pointer;" onclick="showform(this.id)">
+                        {{ a.value }} {{ headings[1] }}
+                    </div>
+
+
+                    {% set a.value = a.value + 1 %} {% endif %} {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            <div {% if data[0][2]=="heading" %}class="col col-sm-8" {% else %}class="col col-sm-12" {% endif %}>
+                <div class="container">
+                    {% set b = namespace(value=1) %}
+                    <div class="row">
+                        {% for formdata in data %} {% if data[0][2] == "heading" and loop.index > 1 %} {% if formdata[2] != "heading" %}
+
+                        <div class="{{ formdata[5] }} data_{{ b.value }} shown" id="data_{{ b.value }}" {% if b.value> 1 %}style="display: none;" {% else %}style="display: block;"{% endif %}> {% if formdata[2] != "radio" and formdata[2] != "paragraph" %}
+                            <label>{{ formdata[1] }}</label> {% endif %} {% if formdata[2]!= "paragraph" and formdata[2] != "radio" and formdata[2] != "textarea" %}
+                            <input class="form-control values_{{ b.value }} testt" name="{{ formdata[0] }}" id="{{ formdata[0] }}" type="{{ formdata[2] }}" value="{{ formdata[0] }},{{ formdata[4] }}" placeholder="{{ formdata[3] }}" {% if formdata[-1]==1 %} required{% endif %}>                            {% elif formdata[2] == "textarea" %}
+                            <input class="form-control values_{{ b.value }} testt" id="{{ formdata[0] }}" name="{{ formdata[0] }}" type="textarea" value="{{ formdata[0] }},{{ formdata[4] }}" placeholder="{{ formdata[3] }}" {% if formdata[-1]==1 %} required{% endif %}>                            {% elif formdata[2] == "paragraph" %}
+                            <p id="{{ formdata[0] }}" value="{{ formdata[4] }}" placeholder="{{ formdata[3] }}">{{ formdata[1] }}</p>
+                            {% elif formdata[2] == "radio" %} {% set list1 = formdata[1].split(',') %} {% set list2 = formdata[4].split(',') %} {% for item in list1 %} {{ item }}
+                            <input class="values_{{ b.value }} testt1" name="{{ formdata[0] }}" type="radio" value="{{ list2[loop.index - 1] }}" {% if formdata[-1]==1 %} required{% endif %}> {% endfor %} {% endif %}
+                        </div>
+                        {% else %} {% set b.value = b.value + 1 %} {% endif %} {% elif data[0][2] != "heading" %}
+                        <div class="{{ formdata[5] }}" id="data_{{ b.value }}" {% if b.value> 1 %}style="display: none;"{% endif %}> {% if formdata[2] != "radio" and formdata[2] != "paragraph" %}
+                            <label>{{ formdata[1] }}</label> {% endif %} {% if formdata[2]!= "paragraph" and formdata[2] != "radio" and formdata[2] != "textarea" %}
+                            <input id="{{ formdata[0] }}" class="form-control" name="{{ formdata[0] }}" type="{{ formdata[2] }}" value="{{ formdata[4] }}" placeholder="{{ formdata[3] }}" {% if formdata[-1]==1 %} required{% endif %}> {% elif formdata[2]
+                            == "textarea" %}
+                            <input id="{{ formdata[0] }}" class="form-control testt" name="{{ formdata[0] }}" type="textarea" value="{{ formdata[4] }}" placeholder="{{ formdata[3] }}" {% if formdata[-1]==1 %} required{% endif %}> {% elif formdata[2] ==
+                            "paragraph" %}
+                            <p id="{{ formdata[0] }}" type="textarea" name="{{ formdata[0] }}" value="{{ formdata[4] }}" placeholder="{{ formdata[3] }}">{{ formdata[1] }}</p>
+                            {% elif formdata[2] == "radio" %} {% set list1 = formdata[1].split(',') %} {% set list2 = formdata[4].split(',') %} {% for item in list1 %} {{ item }}
+                            <input id="{{ formdata[0] }}" name="{{ formdata[0] }}" type="radio" value="{{ formdata[0] }},{{ list2[loop.index] }}" {% if formdata[-1]==1 %} required{% endif %}> {% endfor %} {% endif %}
+                        </div>
+
+                        {% endif %} {% endfor %}
+
+                        <button type="button" id="for_1" onclick="savarecords(this.id)" class="btn btn-primary savebtn">
+                        Save
+                    </button>
+                        <input name="studyprojectid" id="studyprojectid" value="{{ formid }}" required readonly style="display: None;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create Patient</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <form method="post" action="/addpatient">
+                    <div class="modal-body">
+                        <div class="form-row">
+
+                            <div class="form-group col-md-6">
+                                <label for="input1">Patient Name *</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="input2">Contact</label>
+                                <input type="text" class="form-control" id="contact" name="contact" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="input3">Current Residance</label>
+                                <input type="text" class="form-control" id="address" name="address" required>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="input2">Patient Id</label>
+                                <input type="text" class="form-control" id="contact" name="pid" required>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                <label for="input2">CNIC </label>
+                                <input type="text" class="form-control" id="contact" name="cnic" required>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+    <script>
+        function showform(id) {
+            console.log(id)
+            var formid = id.split("_")[1];
+            console.log($('.data_').length)
+            $('.shown').each(function() {
+                this.addClass = "shown";
+                this.style.display = "none";
+            });
+            $('.data_' + formid.toString()).each(function() {
+                this.removeClass = "shown";
+                this.style.display = "block";
+            });
+            document.getElementsByClassName("savebtn")[0].id = "for_" + formid.toString()
+
+        }
+
+        function savarecords(id) {
+            var idform = id.split('_')[1]; {#
+                alert(idform);#
+            }
+            var patientid = document.getElementById("patientName").value;
+            var studyprojectid = document.getElementById("studyprojectid").value;
+            console.log(patientid);
+            var myFormData = []
+            var emptyfiewld = []
+            $('.values_' + idform.toString()).each(function() {
+                console.log(this.required);
+                if (this.required && this.value != '') {
+                    if (this.type == 'radio') {
+                        if (this.checked) {
+                            {#
+                                alert(this.value)#
+                            }
+                            myFormData.push(this.name + '_&&_' + this.value);
+                        }
+                    } else {
+                        myFormData.push(this.id + '_&&_' + this.value);
+                    }
+                } else {
+                    emptyfiewld.push(this.id)
+
+                }
+
+
+            });
+            if (emptyfiewld.length == 0) {
+                console.log(myFormData);
+                $.ajax({
+                    type: 'GET',
+                    url: '/casedataadd',
+                    data: {
+                        myFormData: myFormData.toString(),
+                        patientid: patientid,
+                        studyprojectid: studyprojectid
+                    },
+                    success: function(response) {
+                        var idheading = parseInt(idform) + 1;
+                        showform('heading_' + idheading.toString());
+                        if (response["success"] == true) {
+                            location.reload();
+                        }
+                    }
+                });
+            } else {
+                alert("Please fill all required fields")
+            }
+
+        }
+
+
+        function fillformdata(val) {
+            var patientid = val;
+            var studyprojectid = document.getElementById("studyprojectid").value;
+            alert(patientid);
+
+            $.ajax({
+                type: 'GET',
+                url: '/casepatientdetail',
+                data: {
+                    patientid: patientid,
+                    studyprojectid: studyprojectid
+                },
+                success: function(response) {
+                    console.log(response);
+                    if (response["success"] == true) {
+                        for (var i in response) {
+                            if (i != "success") {
+                                {#
+                                    console.log(document.getElementById(i.toString()).tagName);#
+                                }
+                                if (document.getElementById(i)) {
+                                    document.getElementById(i).value = response[i];
+                                } else {
+                                    {#
+                                        document.getElementById(i).checked = true;#
+                                    }
+                                    $('input:radio[name=' + i + '][value=' + response[i] + ']').prop('checked', true);
+                                } {#
+                                    if (document.getElementById(i).value == response[i]) {#} {#
+                                        document.getElementById(i).checked = true;#
+                                    } {##} {#}#
+                                }
+                            }
+                        }
+                    } else {
+                        $('.testt').each(function() {
+                            console.log(this.required);
+                            this.value = '';
+
+
+                        });
+                        $('.testt1').each(function() {
+                            console.log(this.required);
+                            this.checked = false;
+
+
+                        });
+                        console.log("nothing")
+                    }
+
+
+                }
+            });
+        }
+
+        studyprojectid({
+            {
+                userid
+            }
+        })
+    </script>
+</body>
+
+</html>

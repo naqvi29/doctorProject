@@ -1,0 +1,68 @@
+{% extends "layoutadmin.html" %} {% block title %}Doctor Project{% endblock %} {% block head %} {{ super() }} {% endblock %} {% block content %}
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">Change Password</h1>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card shadow mb-4">
+
+                {% if message|length > 1 %}
+                <div class="col-md-12">
+                    <div class="alert alert-success">{{ message }}</div>
+                </div>
+                {% endif %} {% if error|length > 1 %}
+                <div class="col-md-12">
+                    <div class="alert alert-danger">{{ error }}</div>
+                </div>
+                {% endif %}
+
+
+
+            </div>
+            <form class="row g-3" method="POST" action="setting">
+                <div class="col-md-6">
+                    <label for="inputEmail4" class="form-label">User Name</label>
+                    <input name="username" value="{{username}}" type="text" class="form-control" id="inputEmail4">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Password</label>
+                    <input name="password" type="password" class="form-control">
+                </div>
+                <div class="col-6">
+                    <label for="inputAddress" class="form-label">New Password</label>
+                    <input name="newpassword" type="password" class="form-control" id="inputAddress">
+                </div>
+
+
+
+
+
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Sign in</button>
+        </div>
+        </form>
+
+    </div>
+
+
+</div>
+<!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+
+{% endblock %} {% block script %} {#
+<script>
+    #} {#
+        $(document).ready(function() {#} {#
+            $('.mdb-select').materialSelect();#
+        } {#});#
+    } {#
+</script>#} {% endblock %}

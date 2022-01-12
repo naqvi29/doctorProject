@@ -1,0 +1,255 @@
+{% extends "layoutadmin.html" %} {% block title %}Doctor Project{% endblock %} {% block head %} {{ super() }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css"> {% endblock %} {% block content %}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">Case Listing for patients
+
+
+    </h1>
+
+<!--    <a style="padding-left: 2vw;" href="CaseView"><i class="fas fa-arrow-left"></i> Case View-->
+<!--        </a>-->
+
+
+
+    <div class="row">
+        {% if message|length > 1 %}
+        <div class="col-md-12">
+            <div class="alert alert-success">{{ message }}</div>
+        </div>
+        {% endif %} {% if error|length > 1 %}
+        <div class="col-md-12">
+            <div class="alert alert-danger">{{ error }}</div>
+        </div>
+        {% endif %}
+        <div class="col-sm-12">
+            <div class="card shadow mb-4">
+                <div class="container table-responsive">
+                    <table id="Table" class="table table-striped table-bordered mt-5 mb-5">
+                        <thead>
+                            <tr>
+                                {% for header in header %}
+                                <th>{{ header }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for records in data %}
+                            <tr>
+                                <td>{{ loop.index }}</td>
+                                {% for row in records %} {% if loop.index > 3 %}
+                                <td>{{ row }}</td>
+                                {% endif %} {% endfor %}
+                                </td>
+                                <td>
+
+                                    <button class="btn btn-success" onclick="view({{ records[0] }},{{ records[1] }},{{ records[2] }})">View
+                                        </button>
+
+                                </td>
+                                <td>
+                                    <button class="btn btn-danger" onclick="deletea({{ records[0] }})">Delete
+                                        </button>
+
+                                </td>
+                            </tr>
+                            {% endfor %}
+
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                {% for header in headers %}
+                                <th>{{ header }}</th>
+                                {% endfor %}
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+{% endblock %} {% block script %} {#
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>#}
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+    function view(id, patid, docid) {
+        var formid = id;
+        var patientid = patid;
+        var doctorid = docid;
+        var actualformid = formid
+        var date = new Date();
+        date.setTime(date.getTime() + (1 * 1 * 60 * 60 * 1000));
+        document.cookie = "formentryid=" + formid.toString() + "; expires=" + date.toGMTString() + ";path=/";
+        document.cookie = "patientid=" + patientid.toString() + "; expires=" + date.toGMTString() + ";path=/";
+        document.cookie = "doctorid=" + doctorid.toString() + "; expires=" + date.toGMTString() + ";path=/";
+        document.cookie = "actualformid=" + actualformid.toString() + "; expires=" + date.toGMTString() + ";path=/";
+        window.location.href = "/case-patient-study";
+    }
+
+    function deletea(id) {
+        var caseid = id;
+        $.ajax({
+            url: "/casestudydelete",
+            type: "post",
+            caseid: caseid,
+            data: {
+                caseid: caseid
+            },
+            success: function(response) {
+                location.reload();
+            }
+        });
+    }
+</script>
+
+
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js"></script>
+<!--<script>-->
+<!--    $(document).ready(function() {-->
+<!--        var t = $('#Table').DataTable({-->
+<!--            dom: 'Bfrtip',-->
+<!--            order: [-->
+<!--                [1, "asc"]-->
+<!--            ],-->
+<!--            buttons: [-->
+<!--                'csv', 'excel', 'pdf', 'print'-->
+<!--            ]-->
+<!--        });-->
+<!--        $(".dt-button").addClass("btn btn-success");-->
+
+<!--    });-->
+<!--</script>-->
+
+<script>
+    $(document).ready(function() {
+    var currentdate = new Date();
+    var datetime = "Downloaded by: {{username}} on " + currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/"
+                + currentdate.getFullYear() + " at "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds();
+        var t = $('#Table').DataTable({
+            dom: 'Bfrtip',
+            order: [
+                [1, "asc"]
+            ],
+            buttons: [
+                    {
+                extend: 'csvHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2,3 ]
+                },
+                messageBottom: `${datetime}`
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2,3]
+                },
+                messageBottom: `${datetime}`
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2,3 ]
+
+                },
+                messageBottom: `${datetime}`
+            },
+            {
+                extend: 'print',
+                exportOptions: {
+                    columns: [ 0, 1, 2,3 ]
+                },
+                 messageBottom: `${datetime}`
+            }
+
+            ]
+        });
+        $(".dt-button").addClass("btn btn-success");
+
+
+$(".buttons-pdf").click(function(){
+
+  $.ajax({
+                type: 'GET',
+                url: '/patient-list',
+                data: {
+                    message: "PDF file for patient list was downloaded"
+                },
+                success: function (response) {
+
+                }
+            });
+});
+
+$(".buttons-csv").click(function(){
+
+  $.ajax({
+                type: 'GET',
+                url: '/patient-list',
+                data: {
+                    message: "CSV file for patient list was downloaded"
+                },
+                success: function (response) {
+
+                }
+            });
+});
+
+$(".buttons-excel").click(function(){
+
+  $.ajax({
+                type: 'GET',
+                url: '/patient-list',
+                data: {
+                    message: "Excel file for patient list was downloaded"
+                },
+                success: function (response) {
+
+                }
+            });
+});
+$(".buttons-print").click(function(){
+
+  $.ajax({
+                type: 'GET',
+                url: '/patient-list',
+                data: {
+                    message: "Patient list file printed"
+                },
+                success: function (response) {
+
+                }
+            });
+});
+
+
+    });
+</script>
+
+
+
+{% endblock %}

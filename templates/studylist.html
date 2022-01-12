@@ -1,0 +1,274 @@
+{% extends "layoutadmin.html" %} {% block title %}Doctor Project{% endblock %} {% block head %} {{ super() }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css"> {% endblock %} {% block content %}
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">Study Project Listing
+    </h1>
+
+    <div class="row">
+        <div class="col-sm-12">
+
+            {% if message|length > 1 %}
+            <div class="col-md-12">
+                <div class="alert alert-success">{{ message }}</div>
+            </div>
+            {% endif %}
+            <div class="card shadow mb-4">
+                <div class="row ">
+                    <a style="padding-left: 2vw;" href="/Study/add"><i class=""></i> New Study</a>
+                </div>
+                <div class="container table-responsive">
+                    <table id="Table" class="table table-striped table-bordered mt-5 mb-5" style="width:100%">
+                        <thead>
+                            <tr>
+                                {% for header in headers %}
+                                <th>{{ header }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for records in data %}
+                            <tr>
+                                <td>{{ records[0] }}</td>
+                                {% for row in records %} {% if loop.index > 1 and loop.index
+                                < 6 %} <td>{{ row }}</td>
+                                    {% endif %} {% endfor %}
+<!--                                <td>-->
+<!--                                        <button class="btn btn-success" onclick="viewform({{ records[0] }})">View Form</button>-->
+<!--                                    </td>-->
+                                    <td>
+                                        <button class="btn btn-success" onclick="edit({{ records[0] }})">Edit</button>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-danger" onclick="deleteuser({{ records[0] }})">Delete
+                                    </button>
+                                    </td>
+                            </tr>
+                            {% endfor %}
+
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                {% for header in headers %}
+                                <th>{{ header }}</th>
+                                {% endfor %}
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+<div class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete The Case</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <p>Are you confirm to delete the case?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Yes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="mediumModalLabel" class="modal fade" id="deleteUserModal" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mediumModalLabel">Confirm Delete The Case?</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+
+            <div class="modal-body" id="edit">
+                <input type="text" name="docids" id="docids" readonly style="display: none;">
+                <p>Are you confirm to delete the case?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+                <button class="btn btn-primary" id="deletedoc" onclick="deletea()" type="button">Confirm</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %} {% block script %} {#
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>#}
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+
+<script>
+    function edit(id) {
+        var caseid = id;
+        var date = new Date();
+        date.setTime(date.getTime() + (1 * 1 * 60 * 60 * 1000));
+        document.cookie = "case=" + caseid.toString() + "; expires=" + date.toGMTString() + ";path=/";
+        window.location.href = "/caseedit";
+    }
+
+    function viewform(id) {
+        var caseid = id;
+        var date = new Date();
+        date.setTime(date.getTime() + (1 * 1 * 60 * 60 * 1000));
+        document.cookie = "case=" + caseid.toString() + "; expires=" + date.toGMTString() + ";path=/";
+        window.location.href = "/caseedit";
+    }
+
+    function deleteuser(id) {
+        document.getElementById("docids").value = id;
+        $("#deleteUserModal").modal();
+    }
+
+
+    function deletea() {
+        var id = document.getElementById("docids").value
+        var caseid = id;
+        $.ajax({
+            url: "/casedelete",
+            type: "post",
+            caseid: caseid,
+            data: {
+                caseid: caseid
+            },
+            success: function(response) {
+                location.reload();
+            }
+        });
+    }
+</script>
+
+
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.flash.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/fixedheader/3.1.6/js/dataTables.fixedHeader.min.js"></script>
+<script>
+    $(document).ready(function() {
+    var currentdate = new Date();
+    var datetime = "Downloaded by: {{username}} on " + currentdate.getDate() + "/"
+                + (currentdate.getMonth()+1)  + "/"
+                + currentdate.getFullYear() + " at "
+                + currentdate.getHours() + ":"
+                + currentdate.getMinutes() + ":"
+                + currentdate.getSeconds();
+        var t = $('#Table').DataTable({
+            dom: 'Bfrtip',
+            order: [
+                [1, "asc"]
+            ],
+            buttons: [
+                    {
+                extend: 'csvHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2,3,4 ]
+                },
+                messageBottom: `${datetime}`
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2,3,4 ]
+                },
+                messageBottom: `${datetime}`
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2,3,4 ]
+
+                },
+                messageBottom: `${datetime}`
+            },
+            {
+                extend: 'print',
+                exportOptions: {
+                    columns: [ 0, 1, 2,3,4 ]
+                },
+                 messageBottom: `${datetime}`
+            }
+
+            ]
+        });
+        $(".dt-button").addClass("btn btn-success");
+
+        $(".buttons-pdf").click(function(){
+
+  $.ajax({
+                type: 'GET',
+                url: '/Study/list',
+                data: {
+                    message: "PDF file for study list was downloaded"
+                },
+                success: function (response) {
+
+                }
+            });
+});
+
+$(".buttons-csv").click(function(){
+
+  $.ajax({
+                type: 'GET',
+                url: '/Study/list',
+                data: {
+                    message: "CSV file for study list was downloaded"
+                },
+                success: function (response) {
+
+                }
+            });
+});
+
+$(".buttons-excel").click(function(){
+
+  $.ajax({
+                type: 'GET',
+                url: '/Study/list',
+                data: {
+                    message: "Excel file for study list was downloaded"
+                },
+                success: function (response) {
+
+                }
+            });
+});
+$(".buttons-print").click(function(){
+
+  $.ajax({
+                type: 'GET',
+                url: '/Study/list',
+                data: {
+                    message: "Study list file printed"
+                },
+                success: function (response) {
+
+                }
+            });
+});
+
+
+    });
+</script>
+
+{% endblock %}

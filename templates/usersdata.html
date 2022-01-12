@@ -1,0 +1,294 @@
+{% if user == "doctor" %}
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="name">Name </label>
+    </div>
+    <div class="col col-sm-6">
+        <input class="input-sm form-control-sm form-control" id="name" name="name" value="{{ name }}" placeholder="Name of Doctor" type="text" required>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="username">Username</label>
+    </div>
+    <div class="col col-sm-6">
+        <input class="input-sm form-control-sm form-control" id="username" name="username" value="{{ username }}" type="text" placeholder="Please enter email id" required readonly>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="username">Password</label>
+    </div>
+    <div class="col col-sm-6">
+        <input class="input-sm form-control-sm form-control" id="password" name="password" value="{{ password }}" type="text" placeholder="Please enter password" required>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="address">Address</label>
+    </div>
+<!--    <div class="col col-sm-6">-->
+<!--        <input class="input-sm form-control-sm form-control" id="address" name="address" value="{{ address }}" type="text" placeholder="Please enter address" required>-->
+<!--    </div>-->
+     <div class="col col-sm-6">
+        <select class="selectpicker form-control" multiple data-live-search="true" id="address" name="address">
+                {% for add in address1 %}
+
+                    <option {% if add[1] == address %} selected {% endif %}
+                            value="{{ add[0] }}">{{ add[1] }}</option>
+                {% endfor %}
+            </select>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="contactno">Contact
+                Number</label>
+    </div>
+    <div class="col col-sm-6">
+        <input class="input-sm form-control-sm form-control" id="contactno" name="contactno" value="{{ contactno }}" type="text" placeholder="Please enter contact number" required>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="form">Form</label>
+    </div>
+    <div class="col col-sm-6">
+        <select class="selectpicker form-control" multiple data-live-search="true" id="form" name="form">
+                {% for eachform in forms %}
+
+                    <option {% if eachform[0] in formspermissions %} selected {% endif %}
+                                                                     value="{{ eachform[0] }}">{{ eachform[1] }}</option>
+                {% endfor %}
+            </select>
+    </div>
+</div>
+
+
+
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="contactno">Role 
+            </label>
+    </div>
+    <div class="col col-sm-6">
+        <select id="role2" name="role2" class="selectpicker form-control" aria-label="Default select example">
+           
+            <option {% if role == "Principal Invesigator" %} selected {% endif %}>Principal Invesigator</option>
+            <option {% if role == "Co-investigator" %} selected {% endif %}>Co-investigator</option>
+            <option {% if role == "Clinical Research Associate" %} selected {% endif %}>Clinical Research Associate</option>
+            <option  {% if role == "Research Nurse" %} selected {% endif %}>Research Nurse</option>
+            <option  {% if role == "Study Monitor" %} selected {% endif %}>Study Monitor</option>
+            <option  {% if role == "Data Manager" %} selected {% endif %}>Data Manager</option>
+            <option  {% if role == "Quality Assurance" %} selected {% endif %}>Quality Assurance </option>
+            <option  {% if role == "Query Receiver" %} selected {% endif %}>Query Receiver </option>
+            <option  {% if role == "Query Sender" %} selected {% endif %}>Query Sender </option>
+          </select>
+
+
+    </div>
+</div>
+
+
+
+
+<input id="formpermission" name="formpermission" type="text" value="{{ formspermissions }}" style="display: none;">
+<input id="id" style="display: none" type="text" value="{{ id }}"> {% elif user == "assistant" %}
+
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="name">Name</label>
+    </div>
+    <div class="col col-sm-6">
+        <input class="input-sm form-control-sm form-control" id="name" name="name" value="{{ name }}" placeholder="Name of Doctor" type="text" required>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="username">Username</label>
+    </div>
+    <div class="col col-sm-6">
+        <input class="input-sm form-control-sm form-control" id="username" name="username" value="{{ username }}" type="text" placeholder="Please enter email id" required readonly>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="username">Password</label>
+    </div>
+    <div class="col col-sm-6">
+        <input class="input-sm form-control-sm form-control" id="password" name="password" value="{{ password }}" type="text" placeholder="Please enter password" required>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="address">Address</label>
+    </div>
+    <div class="col col-sm-6">
+        <input class="input-sm form-control-sm form-control" id="address" name="address" value="{{ address }}" type="text" placeholder="Please enter address" required>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="contactno">Contact
+                Number</label>
+    </div>
+    <div class="col col-sm-6">
+        <input class="input-sm form-control-sm form-control" id="contactno" name="contactno" value="{{ contactno }}" type="text" placeholder="Please enter contact number" required>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="contactno">Role 
+            </label>
+    </div>
+
+
+    <div class="col col-sm-6">
+        <select id="role2" name="role2" class="selectpicker form-control" aria-label="Default select example">
+           
+            <option {% if role == "Principal Invesigator" %} selected {% endif %}>Principal Invesigator</option>
+            <option {% if role == "Co-investigator" %} selected {% endif %}>Co-investigator</option>
+            <option {% if role == "Clinical Research Associate" %} selected {% endif %}>Clinical Research Associate</option>
+            <option  {% if role == "Research Nurse" %} selected {% endif %}>Research Nurse</option>
+            <option  {% if role == "Study Monitor" %} selected {% endif %}>Study Monitor</option>
+            <option  {% if role == "Data Manager" %} selected {% endif %}>Data Manager</option>
+            <option  {% if role == "Quality Assurance" %} selected {% endif %}>Quality Assurance </option>
+          </select>
+
+
+    </div>
+</div>
+
+
+
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="form">Form</label>
+    </div>
+    <div class="col col-sm-6">
+        <select class="selectpicker form-control-sm form-control" multiple data-live-search="true" id="form" name="form">
+                {% for eachform in forms %}
+
+                    <option {% if eachform[0] in formspermissions %} selected {% endif %}
+                                                                     value="{{ eachform[0] }}">{{ eachform[1] }}</option>
+                {% endfor %}
+            </select>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="doctor">Doctor's Assistant</label>
+    </div>
+    <div class="col col-sm-6">
+        <select class="selectpicker form-control-sm form-control" id="doctor" name="doctor" required>
+                <option value="0" selected>Select...</option>
+                {% for user in users %}
+                    <option value='{{ user[0] }}' {% if user[0] == doctor %} selected {% endif %}>{{ user[1] }}</option>
+                {% endfor %}
+            </select>
+    </div>
+</div>
+<input id="id" style="display: none" type="text" value="{{ id }}"> {% elif user == "representative" %}
+
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="name">Name</label>
+    </div>
+    <div class="col col-sm-6">
+        <input class="input-sm form-control-sm form-control" id="name" name="name" value="{{ name }}" placeholder="Name of Doctor" type="text" required>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="username">Username</label>
+    </div>
+    <div class="col col-sm-6">
+        <input class="input-sm form-control-sm form-control" id="username" name="username" value="{{ username }}" type="text" placeholder="Please enter email id" required readonly>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="username">Password</label>
+    </div>
+    <div class="col col-sm-6">
+        <input class="input-sm form-control-sm form-control" id="password" name="password" value="{{ password }}" type="text" placeholder="Please enter password" required>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="address">Address</label>
+    </div>
+    <div class="col col-sm-6">
+        <input class="input-sm form-control-sm form-control" id="address" name="address" value="{{ address }}" type="text" placeholder="Please enter address" required>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="contactno">Contact
+                Number</label>
+    </div>
+    <div class="col col-sm-6">
+        <input class="input-sm form-control-sm form-control" id="contactno" name="contactno" value="{{ contactno }}" type="text" placeholder="Please enter contact number" required>
+    </div>
+</div>
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="repcode">Repcode</label>
+    </div>
+    <div class="col col-sm-6">
+        <input class="input-sm form-control-sm form-control" id="repcode" name="repcode" value="{{ form }}" type="text" placeholder="Please enter repcode" required>
+    </div>
+</div>
+
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="contactno">Role 
+            </label>
+    </div>
+    <div class="col col-sm-6">
+        <select id="role2" name="role2" class="selectpicker form-control" aria-label="Default select example">
+           
+            <option {% if role == "Principal Invesigator" %} selected {% endif %}>Principal Invesigator</option>
+            <option {% if role == "Co-investigator" %} selected {% endif %}>Co-investigator</option>
+            <option {% if role == "Clinical Research Associate" %} selected {% endif %}>Clinical Research Associate</option>
+            <option  {% if role == "Research Nurse" %} selected {% endif %}>Research Nurse</option>
+            <option  {% if role == "Study Monitor" %} selected {% endif %}>Study Monitor</option>
+            <option  {% if role == "Data Manager" %} selected {% endif %}>Data Manager</option>
+            <option  {% if role == "Quality Assurance" %} selected {% endif %}>Quality Assurance </option>
+          </select>
+
+    </div>
+</div>
+
+
+<div class="row form-group">
+    <div class="col col-sm-5">
+        <label class=" form-control-label" for="form">Form </label>
+    </div>
+    <div class="col col-sm-6">
+        <select class="selectpicker form-control-sm form-control" multiple data-live-search="true" id="form" name="form">
+                {% for eachform in forms %}
+
+                    <option {% if eachform[0] in formspermissions %} selected {% endif %}
+                                                                     value="{{ eachform[0] }}">{{ eachform[1] }}</option>
+                {% endfor %}
+            </select>
+    </div>
+</div>
+<input id="id" style="display: none" type="text" value="{{ id }}"> {% endif %}
+<script>
+    $('select').selectpicker({
+
+        liveSearch: true
+    });
+</script>

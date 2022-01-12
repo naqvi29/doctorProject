@@ -1,0 +1,132 @@
+{% extends "layoutadmin.html" %} {% block title %}Doctor Project{% endblock %} {% block head %} {{ super() }} {% endblock %} {% block content %}
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <h1 class="h3 mb-4 text-gray-800">User Add</h1>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card shadow mb-4">
+
+                {% if message|length > 1 %}
+                <div class="col-md-12">
+                    <div class="alert alert-success">{{ message }}</div>
+                </div>
+                {% endif %} {% if error|length > 1 %}
+                <div class="col-md-12">
+                    <div class="alert alert-danger">{{ error }}</div>
+                </div>
+                {% endif %}
+                <form class="needs-validation mt-5" action="/Doctor/add" method="post">
+                    <div class="container">
+                        <div class="form-row">
+                            <div class="col-md-4 mb-3">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name" name="name" placeholder="Name" required value="{{ a }}">
+
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label for="username">Username</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="inputGroupPrepend">@</span>
+                                    </div>
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" aria-describedby="inputGroupPrepend" required>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label for="password">Password</label>
+                                <input type="Password" class="form-control" id="password" name="password" placeholder="Password" required>
+
+                            </div>
+                        </div>
+                        <div class="form-row">
+
+                            <div class="col-md-3 mb-3">
+                                <label for="form">Address / Site</label>
+                                <select class="selectpicker form-control" multiple data-live-search="true" id="form" name="address">
+                                        {% for eachform in address %}
+                                            <option value="{{ eachform[0] }}">{{ eachform[1] }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="contactno">Contact Number</label>
+                                <input type="text" class="form-control" id="contactno" name="contactno" placeholder="Contact Number" required value="{{ c }}">
+
+                            </div>
+
+                            <div class="col-md-3 mb-3">
+                                <label for="form">Role</label>
+                                <select name="role2" class="selectpicker form-control" aria-label="Default select example">
+                                <option selected>Open this select menu</option>
+                                <option>Principal Invesigator</option>
+                                <option>Co-investigator</option>
+                                <option>Clinical Research Associate</option>
+                                <option>Research Nurse</option>
+                                <option>Study Monitor</option>
+                                <option>Data Manager</option>
+                                <option>Quality Assurance </option>
+                                <option>Query Sender </option>
+                                <option>Query Receiver </option>
+                              </select>
+                            </div>
+
+
+
+                            <div class="col-md-3 mb-3">
+                                <label for="form">Form</label>
+                                <select class="selectpicker form-control" multiple data-live-search="true" id="form" name="form">
+                                        {% for eachform in forms %}
+                                            <option value="{{ eachform[0] }}">{{ eachform[1] }}</option>
+                                        {% endfor %}
+                                    </select>
+
+                            </div>
+                        </div>
+                        {#
+                        <div class="form-group">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                                <label class="form-check-label" for="invalidCheck">
+                                    Agree to terms and conditions
+                                </label>
+                                <div class="invalid-feedback">
+                                    You must agree before submitting.
+                                </div>
+                            </div>
+                        </div>
+                        #}
+                        <button class="btn btn-primary mb-4" type="submit">Submit form</button>
+                    </div>
+                </form>
+
+
+            </div>
+
+        </div>
+
+
+    </div>
+    <!-- /.container-fluid -->
+
+</div>
+<!-- End of Main Content -->
+
+
+{% endblock %} {% block script %} {#
+<script>
+    #} {#
+        $(document).ready(function() {#} {#
+            $('.mdb-select').materialSelect();#
+        } {#});#
+    } {#
+</script>#} {% endblock %}
